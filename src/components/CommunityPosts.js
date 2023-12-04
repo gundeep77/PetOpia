@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
 import "moment-timezone";
 import axios from "axios";
 import NewPost from "./modals/NewPost";
@@ -86,7 +85,6 @@ function CommunityPosts() {
     setCount(count + 1);
   };
   const buildCard = (post) => {
-    const currentTimeZone = moment.tz.guess();
     const res = post.postImage ? (
       <Grid item xs={12} sm={7} md={5} lg={4} xl={3} key={post._id}>
         <Card
@@ -122,9 +120,9 @@ function CommunityPosts() {
               component="h2"
             >
               <div style={{ fontWeight: "bold" }} className="date">
-                {post.userEmail.length > 13
-                  ? post.userEmail.slice(0, 13) + "..."
-                  : post.userEmail}
+                {post.userEmail.substring(0, post.userEmail.indexOf("@")).length > 13
+                  ? post.userEmail.substring(0, post.userEmail.indexOf("@")).slice(0, 13) + "..."
+                  : post.userEmail.substring(0, post.userEmail.indexOf("@"))}
                 <br />
                 <LikeUnlikePost
                   className={"in-community-posts"}
@@ -133,9 +131,9 @@ function CommunityPosts() {
                 />
               </div>
               <div className="date">
-                {moment.tz(currentTimeZone).format(post.postDate)}
+                {post.postDate}
                 <br />
-                {moment.tz(currentTimeZone).format(post.postTime)}
+                {post.postTime}
               </div>
             </Typography>
             <Link to={`/account/community-posts/${post._id}`}>
@@ -187,9 +185,9 @@ function CommunityPosts() {
               component="h2"
             >
               <div style={{ fontWeight: "bold" }} className="date">
-              {post.userEmail.length > 13
-                  ? post.userEmail.slice(0, 13) + "..."
-                  : post.userEmail}
+              {post.userEmail.substring(0, post.userEmail.indexOf("@")).length > 13
+                  ? post.userEmail.substring(0, post.userEmail.indexOf("@")).slice(0, 13) + "..."
+                  : post.userEmail.substring(0, post.userEmail.indexOf("@"))}
                 <br />
                 <LikeUnlikePost
                   className={"in-community-posts"}

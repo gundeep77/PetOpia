@@ -22,7 +22,6 @@ import ErrorHandler from "./ErrorHandler";
 function ViewPost() {
   const userId = window.sessionStorage.getItem("userid");
   let userEmail = window.sessionStorage.getItem("userEmail");
-  if(userEmail) userEmail = userEmail.substring(0, userEmail.indexOf("@"));
   const [viewPost, setViewPost] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -170,7 +169,7 @@ function ViewPost() {
                 <dl>
                   <p>
                     <dt className="title">Posted By: </dt>
-                    {viewPost && " " + viewPost.userEmail}
+                    {viewPost && " " + viewPost.userEmail.substring(0, userEmail.indexOf("@"))}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -389,7 +388,7 @@ function ViewPost() {
       <div key={com._id}>
         <Grid item xs zeroMinWidth>
           <p style={{ margin: 0, textAlign: "left", fontWeight: "bold" }}>
-            {com.userEmail}
+            {userEmail && com.userEmail.substring(0, userEmail.indexOf("@"))}
             <LikeUnlikeComment countFunction={handleChange} commentObj={com} />
             <span style={{ fontWeight: "lighter" }}>
               {com.commentLikes.length !== 0 &&
@@ -397,7 +396,7 @@ function ViewPost() {
                   ? com.commentLikes.length + " like"
                   : com.commentLikes.length + " likes")}
             </span>
-            {com.userThatPosted === userId && (
+            {com.userEmail === userEmail && (
               <Link>
                 <span
                   onClick={handleCommentDeleteModalOpen}
